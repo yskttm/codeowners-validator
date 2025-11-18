@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative "../lib/codeowners_validator"
+
+codeowners_path = ARGV[0] || File.expand_path("../CODEOWNERS", __dir__)
+result = CodeownersValidator::Cli.new(codeowners_path).run
+
+exit (result ? 0 : 1)
