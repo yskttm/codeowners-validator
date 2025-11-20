@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 
 group :test do
-  gem "rspec", "3.13.2", require: false
+  gem "debug", require: false
+  gem "rspec", require: false
 end
