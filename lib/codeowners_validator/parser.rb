@@ -1,16 +1,15 @@
 # frozen_string_literal: true
 
-require_relative "entry"
-
 module CodeownersValidator
+  CodeownersEntry = Data.define(:raw, :pattern, :owners, :comment, :line_number)
+
   class Parser
     def initialize(lines)
       @lines = lines
     end
 
     def parse
-      @lines.each_with_index.with_object([]) do |(line, index), entries|
-        line_number = index + 1
+      @lines.each.with_index(1).with_object([]) do |(line, line_number), entries|
         stripped = line.strip
 
         next if stripped.empty? || stripped.start_with?("#")
@@ -19,10 +18,10 @@ module CodeownersValidator
 
         entries << CodeownersEntry.new(
           raw: stripped,
-          pattern: pattern,
-          owners: owners,
-          comment: comment,
-          line_number: line_number
+          pattern:,
+          owners:,
+          comment:,
+          line_number:
         )
       end
     end

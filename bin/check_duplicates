@@ -1,9 +1,19 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require "optparse"
 require_relative "../lib/codeowners_validator"
 
-codeowners_path = ARGV[0] || File.expand_path("../CODEOWNERS", __dir__)
-result = CodeownersValidator::Cli.new(codeowners_path).run
+options = { quiet: false }
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{$PROGRAM_NAME} [options] [CODEOWNERS_PATH]"
+  opts.on("-q", "--quiet", "Disable quiet mode and print status") do
+    options[:quiet] = true
+  end
+end.parse!(ARGV)
+
+codeowners_path = ARGV.shift || File.expand_path("../../CODEOWNERS", __dir__)
+
+result = CodeownersValidator::Cli.new(codeowners_path, quiet: options[:quiet]).run
 
 exit (result ? 0 : 1)

@@ -1,43 +1,52 @@
 # frozen_string_literal: true
 
 require_relative "parser"
-require_relative "duplicate_line_checker"
+require_relative "duplicate_checker"
 
 module CodeownersValidator
   class Cli
-    def initialize(codeowners_path)
+    def initialize(codeowners_path, quiet: false)
       @codeowners_path = codeowners_path
+      @quiet = quiet
     end
 
     def run
-      unless File.file?(@codeowners_path)
-        puts "CODEOWNERS file not found at #{@codeowners_path}"
-        return false
-      end
+      return false unless codeowners_present?
 
       lines   = File.readlines(@codeowners_path, chomp: true)
       entries = Parser.new(lines).parse
-      result  = DuplicateLineChecker.new(entries).run
+      result  = DuplicateChecker.new(entries).run
 
       if !result.duplicates.empty?
         print_duplicates(result.duplicates)
         false
       else
-        puts "No duplicate CODEOWNERS entries found."
+        log "No duplicate CODEOWNERS entries found."
         true
       end
     end
 
     private
 
+    def codeowners_present?
+      return true if File.file?(@codeowners_path)
+
+      log "CODEOWNERS file not found at #{@codeowners_path}"
+      false
+    end
+
+    def log(message)
+      puts message unless @quiet
+    end
+
     def print_duplicates(duplicates)
+      return if @quiet
+
       puts "Duplicate CODEOWNERS entries detected:"
 
-      duplicates.each do |group|
-        pattern = group.first.pattern
-
+      duplicates.each do |pattern, entries|
         puts pattern
-        group.sort_by(&:line_number).each do |entry|
+        entries.sort_by(&:line_number).each do |entry|
           owners_str   = entry.owners.join(" ")
           owners_label = owners_str.empty? ? "(no owners)" : owners_str
           puts "- #{owners_label} at lines #{entry.line_number}"

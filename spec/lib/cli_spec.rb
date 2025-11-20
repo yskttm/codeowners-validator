@@ -9,7 +9,7 @@ RSpec.describe CodeownersValidator::Cli do
     file.write(content)
     file.rewind
 
-    cli = described_class.new(file.path)
+    cli = described_class.new(file.path, quiet: false)
     result = cli.run
 
     file.close!
@@ -20,8 +20,8 @@ RSpec.describe CodeownersValidator::Cli do
   it "returns true when there are no duplicates" do
     content = <<~CODEOWNERS
       # comment
-      path @owner1
-      other @owner2
+      path @owner1 # comment
+      other @owner1 @owner2 # comment
     CODEOWNERS
 
     result = run_with_tempfile(content)
@@ -31,9 +31,9 @@ RSpec.describe CodeownersValidator::Cli do
 
   it "returns false when duplicates are present" do
     content = <<~CODEOWNERS
-      path @owner1
-      other @owner2
-      path @owner1
+      path @owner1 # comment
+      other @owner1 @owner2 # comment
+      path @owner2 # comment
     CODEOWNERS
 
     result = run_with_tempfile(content)

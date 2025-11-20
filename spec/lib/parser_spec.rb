@@ -7,6 +7,7 @@ RSpec.describe CodeownersValidator::Parser do
     it "ignores blank lines and comments" do
       lines = [
         "",
+        " ",
         "# comment",
         "path @owner1",
       ]
@@ -14,11 +15,7 @@ RSpec.describe CodeownersValidator::Parser do
       entries = described_class.new(lines).parse
 
       expect(entries.size).to eq(1)
-      entry = entries.first
-      expect(entry.pattern).to eq("path")
-      expect(entry.owners).to eq(["@owner1"])
-      expect(entry.comment).to be_nil
-      expect(entry.line_number).to eq(3)
+      expect(entries.first.line_number).to eq(4)
     end
 
     it "parses inline comments" do
@@ -26,11 +23,13 @@ RSpec.describe CodeownersValidator::Parser do
         "path @owner1 @owner2 # some comment",
       ]
 
-      entry = described_class.new(lines).parse.first
+      entries = described_class.new(lines).parse
 
-      expect(entry.pattern).to eq("path")
-      expect(entry.owners).to eq(["@owner1", "@owner2"])
-      expect(entry.comment).to eq("some comment")
+      expect(entries.size).to eq(1)
+      expect(entries.first.pattern).to eq("path")
+      expect(entries.first.owners).to eq(["@owner1", "@owner2"])
+      expect(entries.first.comment).to eq("some comment")
+      expect(entries.first.line_number).to eq(1)
     end
   end
 end
