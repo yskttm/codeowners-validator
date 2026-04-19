@@ -9,7 +9,7 @@ RSpec.describe CodeownersValidator::Parser do
         "",
         " ",
         "# comment",
-        "path @owner1",
+        "path @owner1"
       ]
 
       entries = described_class.new(lines).parse
@@ -20,7 +20,7 @@ RSpec.describe CodeownersValidator::Parser do
 
     it "parses inline comments" do
       lines = [
-        "path @owner1 @owner2 # some comment",
+        "path @owner1 @owner2 # some comment"
       ]
 
       entries = described_class.new(lines).parse

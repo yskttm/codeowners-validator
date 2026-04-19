@@ -174,7 +174,7 @@ RSpec.describe CodeownersValidator::UncoveredFileChecker do
 
       entries = [
         make_entry("/app/models/", line_number: 1),
-        make_entry("/app/controllers/", line_number: 2),
+        make_entry("/app/controllers/", line_number: 2)
       ]
 
       result = run(entries)

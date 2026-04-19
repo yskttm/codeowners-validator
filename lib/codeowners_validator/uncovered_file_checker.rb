@@ -34,7 +34,7 @@ module CodeownersValidator
     def matches?(file_path, pattern)
       if pattern.end_with?("/")
         # ディレクトリパターン: 配下の全ファイルにマッチ
-        File.fnmatch("#{pattern.delete_prefix('/')}**", file_path, FNMATCH_FLAGS)
+        File.fnmatch("#{pattern.delete_prefix("/")}**", file_path, FNMATCH_FLAGS)
       elsif pattern.start_with?("/")
         # ルート固定パターン。
         # FNM_PATHNAME では ** 単体が / を跨がないため、** 終端のパターンは **/* も試みる
