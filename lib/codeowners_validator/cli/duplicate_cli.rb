@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
-require_relative "parser"
-require_relative "duplicate_checker"
-
 module CodeownersValidator
-  class Cli
+  class DuplicateCli
     def initialize(codeowners_path, quiet: false)
       @codeowners_path = codeowners_path
       @quiet = quiet
