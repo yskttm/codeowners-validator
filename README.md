@@ -1,32 +1,32 @@
 # codeowners-validator
 
-GitHub の `CODEOWNERS` ファイルを検証・整形するための Ruby 製ツール集です。
+A collection of Ruby tools for validating and formatting GitHub `CODEOWNERS` files.
 
 ---
 
-## 機能一覧
+## Tools
 
-| コマンド | 説明 |
+| Command | Description |
 |---|---|
-| `bin/check_duplicates` | 同一パターンの重複定義を検出 |
-| `bin/check_ghost_patterns` | 実在しないファイル・ディレクトリへの定義を検出 |
-| `bin/check_uncovered_files` | CODEOWNERS に定義されていないファイルを検出 |
-| `bin/sort_patterns` | パターン行をパス順にソート |
+| `bin/check_duplicates` | Detect duplicate pattern definitions |
+| `bin/check_ghost_patterns` | Detect patterns pointing to non-existent files or directories |
+| `bin/check_uncovered_files` | Detect files not covered by any CODEOWNERS pattern |
+| `bin/sort_patterns` | Sort pattern lines by path |
 
 ---
 
-## 前提
+## Requirements
 
-- Ruby がインストールされていること
-- チェック対象の `CODEOWNERS` ファイルが存在すること
+- Ruby must be installed
+- A `CODEOWNERS` file must exist
 
 ---
 
-## 使い方
+## Usage
 
-### `check_duplicates` — 重複定義の検出
+### `check_duplicates` — Detect duplicate definitions
 
-同じパスパターンが複数行に登場していないかチェックします。
+Checks if the same path pattern appears in multiple lines.
 
 ```bash
 bin/check_duplicates CODEOWNERS
@@ -42,9 +42,9 @@ Total duplicate groups: 1
 
 ---
 
-### `check_ghost_patterns` — 存在しないパスへの定義を検出
+### `check_ghost_patterns` — Detect patterns pointing to non-existent paths
 
-CODEOWNERS に定義されているパターンが、実際のファイル・ディレクトリにマッチしない場合に報告します。
+Reports patterns in CODEOWNERS that do not match any actual file or directory.
 
 ```bash
 bin/check_ghost_patterns CODEOWNERS
@@ -59,9 +59,9 @@ Total ghost patterns: 2
 
 ---
 
-### `check_uncovered_files` — カバーされていないファイルの検出
+### `check_uncovered_files` — Detect files missing CODEOWNERS coverage
 
-リポジトリ内のファイルのうち、どの CODEOWNERS パターンにもマッチしないファイルを報告します。`.git/` はデフォルトで除外されます。
+Reports files in the repository that do not match any CODEOWNERS pattern. The `.git/` directory is excluded by default.
 
 ```bash
 bin/check_uncovered_files CODEOWNERS
@@ -76,13 +76,13 @@ Total uncovered files: 2
 
 ---
 
-### `sort_patterns` — パターン行のソート
+### `sort_patterns` — Sort pattern lines
 
-パターン行を先頭のパス（第 1 トークン）の昇順でソートし、ファイルを上書きします。
+Sorts pattern lines in ascending order by their leading path token and overwrites the file.
 
-- ファイル先頭のヘッダーコメント（最初の空行まで）は保持されます
-- コメント行は直後のパターン行に紐付いて一緒にソートされます
-- ソート済みの場合はファイルを変更しません
+- The file header (comment block up to the first blank line) is preserved
+- Comment lines are kept with the pattern line that follows them
+- The file is not modified if it is already sorted
 
 ```bash
 bin/sort_patterns CODEOWNERS
@@ -110,9 +110,9 @@ bin/sort_patterns CODEOWNERS
 
 ---
 
-## 共通オプション
+## Common Options
 
-`sort_patterns` を除く各コマンドは `-q / --quiet` オプションをサポートします。出力を抑制し、終了ステータス（`0` = 正常 / `1` = 問題あり）のみで結果を伝えます。CI での利用に適しています。
+All commands except `sort_patterns` support the `-q / --quiet` flag. It suppresses output and communicates results only via exit status (`0` = ok / `1` = issues found), which is suitable for CI use.
 
 ```bash
 bin/check_duplicates -q CODEOWNERS
@@ -120,7 +120,7 @@ bin/check_duplicates -q CODEOWNERS
 
 ---
 
-## テスト
+## Testing
 
 ```bash
 bundle install
