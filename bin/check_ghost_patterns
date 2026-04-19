@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "optparse"
+require_relative "../lib/codeowners_validator"
+
+options = { quiet: false }
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{$PROGRAM_NAME} [options] [CODEOWNERS_PATH]"
+  opts.on("-q", "--quiet", "Suppress output") do
+    options[:quiet] = true
+  end
+end.parse!(ARGV)
+
+codeowners_path = ARGV.shift || File.expand_path("../../CODEOWNERS", __dir__)
+repo_root = File.dirname(File.expand_path(codeowners_path))
+
+unless File.file?(codeowners_path)
+  puts "CODEOWNERS file not found at #{codeowners_path}" unless options[:quiet]
+  exit 1
+end
+
+lines   = File.readlines(codeowners_path, chomp: true)
+entries = CodeownersValidator::Parser.new(lines).parse
+result  = CodeownersValidator::GhostPatternChecker.new(entries, repo_root).run
+
+if result.ghosts.empty?
+  puts "No ghost CODEOWNERS patterns found." unless options[:quiet]
+  exit 0
+else
+  unless options[:quiet]
+    puts "Ghost CODEOWNERS patterns detected:"
+    result.ghosts.each do |entry|
+      owners_str = entry.owners.empty? ? "(no owners)" : entry.owners.join(" ")
+      puts "#{entry.pattern} #{owners_str} at line #{entry.line_number}"
+    end
+    puts "Total ghost patterns: #{result.ghosts.size}"
+  end
+  exit 1
+end
