@@ -126,7 +126,7 @@ RSpec.describe CodeownersValidator::GhostPatternChecker do
       entries = [
         make_entry("/app/main.rb", line_number: 1),
         make_entry("/missing/path.rb", line_number: 2),
-        make_entry("/also/missing.rb", line_number: 3),
+        make_entry("/also/missing.rb", line_number: 3)
       ]
 
       result = run(entries)

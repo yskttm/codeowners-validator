@@ -21,10 +21,10 @@ module CodeownersValidator
         Dir.exist?(File.join(@repo_root, pattern.delete_prefix("/").chomp("/")))
       else
         glob = if pattern.start_with?("/")
-                 File.join(@repo_root, pattern.delete_prefix("/"))
-               else
-                 File.join(@repo_root, "**", pattern)
-               end
+          File.join(@repo_root, pattern.delete_prefix("/"))
+        else
+          File.join(@repo_root, "**", pattern)
+        end
         Dir.glob(glob).any?
       end
     end

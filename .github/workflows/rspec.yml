@@ -1,9 +1,6 @@
-name: RSpec
+name: CI
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
 
 jobs:
@@ -19,6 +16,9 @@ jobs:
         with:
           ruby-version: ".ruby-version"
           bundler-cache: true
+
+      - name: Run Standard
+        run: bundle exec standardrb
 
       - name: Run RSpec
         run: bundle exec rspec

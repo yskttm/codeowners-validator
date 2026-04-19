@@ -8,7 +8,7 @@ RSpec.describe CodeownersValidator::DuplicateChecker do
   it "returns no duplicates when all lines are unique" do
     entries = [
       entry_class.new(raw: "path @owner1", pattern: "path", owners: ["@owner1"], comment: nil, line_number: 1),
-      entry_class.new(raw: "other @owner2", pattern: "other", owners: ["@owner2"], comment: nil, line_number: 2),
+      entry_class.new(raw: "other @owner2", pattern: "other", owners: ["@owner2"], comment: nil, line_number: 2)
     ]
 
     result = described_class.new(entries).run
@@ -20,7 +20,8 @@ RSpec.describe CodeownersValidator::DuplicateChecker do
     entries = [
       entry_class.new(raw: "path @owner1", pattern: "path", owners: ["@owner1"], comment: nil, line_number: 1),
       entry_class.new(raw: "path2 @owner2", pattern: "path2", owners: ["@owner2"], comment: nil, line_number: 2),
-      entry_class.new(raw: "path @owner3 @owner4", pattern: "path", owners: ["@owner3", "@owner4"], comment: "comment", line_number: 3),
+      entry_class.new(raw: "path @owner3 @owner4", pattern: "path", owners: ["@owner3", "@owner4"], comment: "comment",
+        line_number: 3)
     ]
 
     result = described_class.new(entries).run

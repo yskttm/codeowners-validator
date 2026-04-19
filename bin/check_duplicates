@@ -16,4 +16,4 @@ codeowners_path = ARGV.shift || File.expand_path("../../CODEOWNERS", __dir__)
 
 result = CodeownersValidator::Cli.new(codeowners_path, quiet: options[:quiet]).run
 
-exit (result ? 0 : 1)
+exit(result ? 0 : 1)

@@ -13,16 +13,16 @@ module CodeownersValidator
     def run
       return false unless codeowners_present?
 
-      lines   = File.readlines(@codeowners_path, chomp: true)
+      lines = File.readlines(@codeowners_path, chomp: true)
       entries = Parser.new(lines).parse
-      result  = DuplicateChecker.new(entries).run
+      result = DuplicateChecker.new(entries).run
 
-      if !result.duplicates.empty?
-        print_duplicates(result.duplicates)
-        false
-      else
+      if result.duplicates.empty?
         log "No duplicate CODEOWNERS entries found."
         true
+      else
+        print_duplicates(result.duplicates)
+        false
       end
     end
 
@@ -47,7 +47,7 @@ module CodeownersValidator
       duplicates.each do |pattern, entries|
         puts pattern
         entries.sort_by(&:line_number).each do |entry|
-          owners_str   = entry.owners.join(" ")
+          owners_str = entry.owners.join(" ")
           owners_label = owners_str.empty? ? "(no owners)" : owners_str
           puts "- #{owners_label} at lines #{entry.line_number}"
         end

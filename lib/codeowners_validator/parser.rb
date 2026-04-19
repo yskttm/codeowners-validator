@@ -38,7 +38,7 @@ module CodeownersValidator
       main_tokens = main_part.strip.split
 
       pattern = main_tokens[0]
-      owners  = main_tokens[1..] || []
+      owners = main_tokens[1..] || []
       comment = comment_part&.strip
 
       [pattern, owners, comment]
