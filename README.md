@@ -1,5 +1,7 @@
 # codeowners-validator
 
+[![CI](https://github.com/yskttm/codeowners-validator/actions/workflows/ci.yml/badge.svg)](https://github.com/yskttm/codeowners-validator/actions/workflows/ci.yml)
+
 A collection of Ruby tools for validating and formatting GitHub `CODEOWNERS` files.
 
 ---
