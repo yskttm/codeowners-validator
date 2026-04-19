@@ -14,6 +14,9 @@ module CodeownersValidator
       when "duplicate" then run_subcommand(DuplicateCli)
       when "ghost" then run_subcommand(GhostCli)
       when "uncovered" then run_subcommand(UncoveredCli)
+      when "-h", "--help"
+        puts usage
+        0
       else
         warn usage
         1
