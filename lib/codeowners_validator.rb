@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative "codeowners_validator/version"
 require_relative "codeowners_validator/parser"
 require_relative "codeowners_validator/checkers/duplicate_checker"
 require_relative "codeowners_validator/checkers/ghost_pattern_checker"

@@ -34,6 +34,16 @@ RSpec.describe CodeownersValidator::MainCli do
     end
   end
 
+  context "--help / -h" do
+    it "returns 0 for --help" do
+      expect(run("--help")).to eq(0)
+    end
+
+    it "returns 0 for -h" do
+      expect(run("-h")).to eq(0)
+    end
+  end
+
   context "duplicate subcommand" do
     it "returns 0 when no duplicates" do
       path = create_file("CODEOWNERS", "/foo @owner\n")
