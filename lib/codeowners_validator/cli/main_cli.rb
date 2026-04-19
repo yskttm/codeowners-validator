@@ -12,7 +12,7 @@ module CodeownersValidator
       subcommand = @argv.shift
       case subcommand
       when "duplicate" then run_subcommand(DuplicateCli)
-      when "ghost"     then run_subcommand(GhostCli)
+      when "ghost" then run_subcommand(GhostCli)
       when "uncovered" then run_subcommand(UncoveredCli)
       else
         warn usage
