@@ -29,10 +29,12 @@ if result.ghosts.empty?
   exit 0
 else
   unless options[:quiet]
-    puts "Ghost CODEOWNERS patterns detected (no matching files or directories):"
+    puts "Ghost CODEOWNERS patterns detected:"
     result.ghosts.each do |entry|
-      puts "- #{entry.pattern} at line #{entry.line_number}"
+      owners_str = entry.owners.empty? ? "(no owners)" : entry.owners.join(" ")
+      puts "#{entry.pattern} #{owners_str} at line #{entry.line_number}"
     end
+    puts "Total ghost patterns: #{result.ghosts.size}"
   end
   exit 1
 end
