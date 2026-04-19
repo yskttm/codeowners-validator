@@ -3,18 +3,7 @@
 [![CI](https://github.com/yskttm/codeowners-validator/actions/workflows/ci.yml/badge.svg)](https://github.com/yskttm/codeowners-validator/actions/workflows/ci.yml)
 [![Ruby](https://img.shields.io/badge/ruby-4.0.2-red?logo=ruby)](https://www.ruby-lang.org/)
 
-A collection of Ruby tools for validating and formatting GitHub `CODEOWNERS` files.
-
----
-
-## Tools
-
-| Command | Description |
-|---|---|
-| `bin/check_duplicates` | Detect duplicate pattern definitions |
-| `bin/check_ghost_patterns` | Detect patterns pointing to non-existent files or directories |
-| `bin/check_uncovered_files` | Detect files not covered by any CODEOWNERS pattern |
-| `bin/sort_patterns` | Sort pattern lines by path |
+A Ruby CLI tool for validating GitHub `CODEOWNERS` files.
 
 ---
 
@@ -27,12 +16,36 @@ A collection of Ruby tools for validating and formatting GitHub `CODEOWNERS` fil
 
 ## Usage
 
-### `check_duplicates` — Detect duplicate definitions
+```bash
+codeowners-validator <subcommand> [options] [CODEOWNERS_PATH]
+```
+
+`CODEOWNERS_PATH` を省略した場合、カレントディレクトリの `CODEOWNERS` を使用します。
+
+### Subcommands
+
+| Subcommand | Description |
+|---|---|
+| `duplicate` | Detect duplicate pattern definitions |
+| `ghost` | Detect patterns pointing to non-existent files or directories |
+| `uncovered` | Detect files not covered by any CODEOWNERS pattern |
+
+### Options
+
+| Option | Description |
+|---|---|
+| `-q`, `--quiet` | Suppress output; communicate results via exit status only |
+
+Exit status: `0` = ok / `1` = issues found
+
+---
+
+### `duplicate` — Detect duplicate definitions
 
 Checks if the same path pattern appears in multiple lines.
 
 ```bash
-bin/check_duplicates CODEOWNERS
+codeowners-validator duplicate CODEOWNERS
 ```
 
 ```text
@@ -45,12 +58,12 @@ Total duplicate groups: 1
 
 ---
 
-### `check_ghost_patterns` — Detect patterns pointing to non-existent paths
+### `ghost` — Detect patterns pointing to non-existent paths
 
 Reports patterns in CODEOWNERS that do not match any actual file or directory.
 
 ```bash
-bin/check_ghost_patterns CODEOWNERS
+codeowners-validator ghost CODEOWNERS
 ```
 
 ```text
@@ -62,12 +75,12 @@ Total ghost patterns: 2
 
 ---
 
-### `check_uncovered_files` — Detect files missing CODEOWNERS coverage
+### `uncovered` — Detect files missing CODEOWNERS coverage
 
 Reports files in the repository that do not match any CODEOWNERS pattern. The `.git/` directory is excluded by default.
 
 ```bash
-bin/check_uncovered_files CODEOWNERS
+codeowners-validator uncovered CODEOWNERS
 ```
 
 ```text
@@ -75,50 +88,6 @@ Uncovered files detected:
 - config/settings.yml
 - scripts/deploy.sh
 Total uncovered files: 2
-```
-
----
-
-### `sort_patterns` — Sort pattern lines
-
-Sorts pattern lines in ascending order by their leading path token and overwrites the file.
-
-- The file header (comment block up to the first blank line) is preserved
-- Comment lines are kept with the pattern line that follows them
-- The file is not modified if it is already sorted
-
-```bash
-bin/sort_patterns CODEOWNERS
-```
-
-**before:**
-```text
-#
-# CODEOWNERS
-#
-
-/zzz @team-z
-/aaa @team-a
-```
-
-**after:**
-```text
-#
-# CODEOWNERS
-#
-
-/aaa @team-a
-/zzz @team-z
-```
-
----
-
-## Common Options
-
-All commands except `sort_patterns` support the `-q / --quiet` flag. It suppresses output and communicates results only via exit status (`0` = ok / `1` = issues found), which is suitable for CI use.
-
-```bash
-bin/check_duplicates -q CODEOWNERS
 ```
 
 ---

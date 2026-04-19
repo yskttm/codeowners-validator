@@ -3,7 +3,7 @@
 require "spec_helper"
 require "tempfile"
 
-RSpec.describe CodeownersValidator::Cli do
+RSpec.describe CodeownersValidator::DuplicateCli do
   def run_with_tempfile(content)
     file = Tempfile.new("codeowners")
     file.write(content)
