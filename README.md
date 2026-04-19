@@ -1,11 +1,18 @@
 # codeowners-validator
 
 [![CI](https://github.com/yskttm/codeowners-validator/actions/workflows/ci.yml/badge.svg)](https://github.com/yskttm/codeowners-validator/actions/workflows/ci.yml)
+[![Gem Version](https://badge.fury.io/rb/codeowners-validator.svg)](https://badge.fury.io/rb/codeowners-validator)
 [![Ruby](https://img.shields.io/badge/ruby-4.0.2-red?logo=ruby)](https://www.ruby-lang.org/)
 
 A Ruby CLI tool for validating GitHub `CODEOWNERS` files.
 
 ---
+
+## Installation
+
+```bash
+gem install codeowners-validator
+```
 
 ## Requirements
 
